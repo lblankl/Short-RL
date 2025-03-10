@@ -1,0 +1,87 @@
+description: logic-Qwen7b-ep2
+
+target:
+  service: singularity
+  name: msrresrchvc
+  resource_group: gcr-singularity-resrch
+  # workspace_name: Workspace_NLC
+  workspace_name: NLC_Workspace
+
+
+
+# target:
+#   service: sing
+#   name: msrresrchvc
+#   resource_group: gcr-singularity-resrch
+#   workspace_name: Workspace_NLC
+
+
+
+
+
+environment:
+  # image: hangbo/pytorch-2.23dev:xformers
+  image: amlt-sing/acpt-torch2.4.1-py3.10-cuda12.4-ubuntu20.04
+
+  # image: huggingface/transformers-pytorch-deepspeed-nightly-gpu
+  setup:
+
+  - pip install onnxruntime==1.19.0
+  - pip3 install vllm==0.6.3 ray verl
+  - pip install wandb IPython matplotlib
+  - DS_BUILD_CPU_ADAM=1 pip install deepspeed==0.15.4
+  - pip install peft
+  - pip install transformers==4.43.3
+  - pip install accelerate
+  - pip install datasets
+  - pip install peft
+  - pip install jsonlines
+  - pip install fraction
+  - pip install tensorboard
+  - pip install /mnt/danlongyuan/resource/baseCode/flash_attn-2.6.3+cu123torch2.4cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
+  - pip install pysbd
+  - pip intall mlflow
+  - pip install azureml-mlflow 
+
+code:
+  local_dir: $CONFIG_DIR/
+
+storage:
+  danlongyuan:
+    storage_account_name: msranlpintern
+    container_name: danlongyuan
+#   msranlp:
+#     storage_account_name: msranlp
+#     container_name: unilm
+#   nlcredstone:
+#     storage_account_name: nlcredstone
+#     container_name: unilm
+#   conversationhub:
+#     storage_account_name: conversationhub
+#     container_name: unilm
+#   conversationhubhot:
+#     storage_account_name: conversationhubhot
+#     container_name: tengchaolv
+
+
+jobs:
+
+- name: logic-Qwen7b-ep2
+  # sku: 1x40G8
+  sku: 1x40G1-A100-IB-NvLink
+  #sla_tier: premium
+  identity: managed
+  process_count_per_node: -1
+  command:
+  
+
+  # - pip install /mnt/danlongyuan/resource/baseCode/flash_attn-2.6.3+cu118torch2.2cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
+  - ls /mnt/danlongyuan
+  - pip install -e .
+  - sh sh/main_re.sh
+  priority: High
+  submit_args:
+    env:
+      {"SINGULARITY_MPI_ENV":"-mca pml ucx --mca btl ^vader,tcp,openib -x NCCL_SOCKET_IFNAME=bond0 -x NCCL_IB_HCA=mlx5_0,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_9,mlx5_10,mlx5_11 -x NCCL_DEBUG=INFO"}
+    container_args:
+      shm_size: 256g

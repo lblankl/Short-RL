@@ -1,0 +1,59 @@
+description: DeepScaleR-Reproduce-GRPO-16k_24k-2node
+
+
+target:
+  service: sing
+  name: msrresrchbasicvc 
+  resource_group: gcr-singularity
+  # workspace_name: Workspace_NLC
+  workspace_name: Workspace_NLC
+
+
+environment:
+  image: buaahsh/nvcr:24.07-py3-scalerl-0211
+  setup:
+  - echo "OK"
+  - sudo chmod 777 -R /opt/conda/envs
+  - sudo chown -R aiscuser /opt/conda/envs
+  - conda init bash; source ~/.bashrc; source /opt/conda/etc/profile.d/conda.sh
+  - conda activate open
+  - echo 'conda ok'
+
+code:
+  local_dir: $CONFIG_DIR/../..
+
+storage:
+  msranlp:
+    storage_account_name: msranlp
+    container_name: unilm
+
+search:
+  job_template:
+    name: DeepScaleR-Reproduce-GRPO-16k_24k-2node
+    identity: managed
+    priority: high
+    sla_tier: standard
+    sku: 2x80G8-H100
+    mpi: True
+    process_count_per_node: 1
+    command:
+    - sudo chmod -R 777 ./
+    - echo $${rank}
+    - bash setup.sh
+    - pip list
+    - bash run.sh {script}
+    tags: [Project_Name:1.58-bit-LLMs, ProjectID:PRJ-0349-A54, Experiment:BitNet]
+    submit_args:
+      env:
+        SINGULARITY_MPI_ENV: "-mca pml ucx --mca btl ^vader,tcp,openib -x NCCL_SOCKET_IFNAME=bond0 -x NCCL_IB_HCA=mlx5_0,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_9,mlx5_10,mlx5_11 -x NCCL_DEBUG=INFO"
+      container_args:
+        shm_size: 256g
+  type: grid
+  max_trials: 500
+  params:
+    - name: rank
+      spec: discrete
+      values: [1]
+    - name: script
+      spec: discrete
+      values: ['run_deepscaler_1.5b_16k.sh', 'run_deepscaler_1.5b_24k.sh']
