@@ -1,4 +1,4 @@
-
+MODEL_PATH="Qwen/Qwen2.5-Math-7B"
 export WANDB_API_KEY=
 export HF_TOKEN=
 

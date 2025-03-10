@@ -29,7 +29,7 @@ def extract_solution(solution_str: str) -> str:
     return remove_boxed(last_boxed_only_string(solution_str))
 
 
-def make_map_fn(split: str):
+def make_map_fn(split: str,dataset_name = "") -> Any:
     """Create a mapping function to process dataset examples.
 
     Args:
@@ -45,7 +45,7 @@ def make_map_fn(split: str):
         answer = example.pop('answer')
 
         data = {
-            "data_source": "",
+            "data_source": dataset_name,
             "prompt": [{
                 "role": "user",
                 "content": question
@@ -95,26 +95,27 @@ if __name__ == '__main__':
         if processed_example is not None:
             train_data.append(processed_example)
 
-    # Process and save each test dataset separately
-    # for test_dataset, test_data_list in zip(test_datasets, test_datasets_data):
-    #     test_data: List[Dict[str, Any]] = []
-    #     process_fn = make_map_fn('test')
-    #     for idx, example in enumerate(test_data_list):
-    #         processed_example = process_fn(example, idx)
-    #         if processed_example is not None:
-    #             test_data.append(processed_example)
+    
+    for test_dataset, test_data_list in zip(test_datasets, test_datasets_data):
+        test_data: List[Dict[str, Any]] = []
+        dataset_name = test_dataset.value.lower()
+        process_fn = make_map_fn('test', dataset_name)
+        for idx, example in enumerate(test_data_list):
+            processed_example = process_fn(example, idx)
+            if processed_example is not None:
+                test_data.append(processed_example)
 
-    #     dataset_name = test_dataset.value.lower()
-    #     test_df = pd.DataFrame(test_data)
-    #     test_df.to_parquet(os.path.join(local_dir, f'{dataset_name}.parquet'))
-    #     print(f"{dataset_name} test data size:", len(test_data))
+        
+        test_df = pd.DataFrame(test_data)
+        test_df.to_parquet(os.path.join(local_dir, f'{dataset_name}.parquet'))
+        print(f"{dataset_name} test data size:", len(test_data))
 
-    # Save training dataset
-    print("train data size:", len(train_data))
-    train_df = pd.DataFrame(train_data)
-    train_df.to_parquet(os.path.join(local_dir, 'train.parquet'))
+    # # Save training dataset
+    # print("train data size:", len(train_data))
+    # train_df = pd.DataFrame(train_data)
+    # train_df.to_parquet(os.path.join(local_dir, 'train.parquet'))
 
-    # Optionally copy to HDFS
-    if hdfs_dir is not None:
-        makedirs(hdfs_dir)
-        copy(src=local_dir, dst=hdfs_dir)
+    # # Optionally copy to HDFS
+    # if hdfs_dir is not None:
+    #     makedirs(hdfs_dir)
+    #     copy(src=local_dir, dst=hdfs_dir)
