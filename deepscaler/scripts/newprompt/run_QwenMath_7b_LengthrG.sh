@@ -5,7 +5,7 @@ MODEL_PATH="Qwen/Qwen2.5-7B"
 
 export WANDB_API_KEY=
 export HF_TOKEN=
-basepath="./deepscaler/data/ThinksimpleRL"
+basepath="./deepscaler/data/ThinkDeepScaler"
 #aime, amc, math, minerva ,olympiad_bench
 # Train over a single node, 8 A100-80GB GPUs.
 python3 -m verl.trainer.main_ppo \
@@ -55,5 +55,5 @@ python3 -m verl.trainer.main_ppo \
     trainer.default_local_dir="/mnt/danlongyuan/ShortR1/records/out/SimpleRLMath_Qwen_7b_LengthrGep1NewP" \
     trainer.reward_type=LengthrGThink \
     algorithm.acc_tolerance=0.05 \
-    algorithm.length_tolerance=200 \
+    algorithm.length_tolerance=300 \
     algorithm.adv_estimator=grpo

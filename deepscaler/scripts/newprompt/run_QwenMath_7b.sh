@@ -4,7 +4,7 @@ MODEL_PATH="Qwen/Qwen2.5-7B"
 
 export WANDB_API_KEY=
 export HF_TOKEN=
-basepath="./deepscaler/data/ThinksimpleRL"
+basepath="./deepscaler/data/ThinkDeepScaler"
 # Train over a single node, 8 A100-80GB GPUs.
 
 python3 -m verl.trainer.main_ppo \
