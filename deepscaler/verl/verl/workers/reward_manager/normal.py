@@ -20,7 +20,7 @@ from verl.trainer.ppo.ray_trainer import RayPPOTrainer
 
 
 from deepscaler.rewards.math_reward import deepscaler_reward_fn
-from deepscaler.rewards import math_reward_lengthrG
+from deepscaler.rewards import math_reward_lengthrG,math_reward_lengthrG_think
 
 def _select_rm_score_fn(data_source,config,data,tokenizer):
     if config.trainer.reward_type == 'default':
@@ -42,6 +42,11 @@ def _select_rm_score_fn(data_source,config,data,tokenizer):
             return math_lengthrG.LengthRScorer(data,tokenizer,config)
         else:
             return math_reward_lengthrG.LengthRScorer(data,tokenizer,config)
+    elif config.trainer.reward_type == 'LengthrGThink':
+        if data_source == 'lighteval/MATH':
+            return math_lengthrG.LengthRScorer(data,tokenizer,config)
+        else:
+            return math_reward_lengthrG_think.LengthRScorer(data,tokenizer,config)
         
     else:
         raise NotImplementedError

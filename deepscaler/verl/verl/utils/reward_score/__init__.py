@@ -13,7 +13,8 @@
 # limitations under the License.
 # from . import gsm8k, math, prime_math, prime_code
 
-from deepscaler.rewards.math_reward import deepscaler_reward_fn
+# from deepscaler.rewards.math_reward import deepscaler_reward_fn
+from deepscaler.rewards.math_reward_think import deepscaler_reward_fn
 
 def _default_compute_score(data_source, solution_str, ground_truth, extra_info=None):
     if data_source == 'openai/gsm8k':
