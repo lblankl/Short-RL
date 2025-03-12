@@ -103,7 +103,7 @@ class RewardMathFn(RewardFn):
         problem = input.problem
         model_response = input.model_response
         
-        print(f"Model Response: {model_response}")
+        #print(f"Model Response: {model_response}")
         
         
         

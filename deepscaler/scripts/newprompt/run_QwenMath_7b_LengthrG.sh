@@ -46,8 +46,8 @@ python3 -m verl.trainer.main_ppo \
     +trainer.val_before_train=True \
     trainer.n_gpus_per_node=8 \
     trainer.nnodes=1 \
-    trainer.save_freq=8 \
-    trainer.test_freq=4 \
+    trainer.save_freq=20 \
+    trainer.test_freq=10 \
     trainer.default_hdfs_dir=null \
     trainer.total_epochs=1 "${@:1}" \
     actor_rollout_ref.rollout.enforce_eager=False \
