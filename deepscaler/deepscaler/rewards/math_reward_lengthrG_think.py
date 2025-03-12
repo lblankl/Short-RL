@@ -32,7 +32,7 @@ def validate_response_structure(processed_str: str) -> bool:
     """
     print("\n[Structure Validation]")
     validation_passed = True
-
+    
     # Check required tags
     tags = {
         'think_start': ('<think>', 1),
@@ -106,13 +106,14 @@ class RewardMathFn(RewardFn):
         
         problem = input.problem
         model_response = input.model_response
-        format_correct = validate_response_structure(model_response)
-        if not format_correct:
-            retrun -2, -1
+        print(f"Model Response: {model_response}")
+        
         
         model_solution = model_response
         model_answer,processed_str = extract_solution(model_solution)
-        #print("model_answer: ", model_answer)
+        format_correct = validate_response_structure(processed_str)
+        if not format_correct:
+            return -2, -1
         if model_answer is None:
             return -2,-1
 
