@@ -8,7 +8,8 @@ import re
 from typing import Dict, Tuple, Optional
 from deepscaler.globals import THOUGHT_DELIMITER_START, THOUGHT_DELIMITER_END, OAI_RM_MODEL
 from deepscaler.rewards import RewardConfig, RewardFn, RewardInput, RewardOutput, RewardType
-from deepscaler.rewards.math_utils.utils import  grade_answer_sympy, grade_answer_mathd
+
+from deepscaler.rewards.math_utils.utils import extract_answer, grade_answer_sympy, grade_answer_mathd
 from deepscaler.system_prompts import ORM_PROMPT
 from deepscaler.utils import call_gemini_llm, call_oai_rm_llm
 
@@ -103,7 +104,7 @@ class RewardMathFn(RewardFn):
         problem = input.problem
         model_response = input.model_response
         
-        #print(f"Model Response: {model_response}")
+        print(f"Model Response: {model_response}")
         
         
         
