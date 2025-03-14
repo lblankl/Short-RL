@@ -157,6 +157,7 @@ algorithm:
     kl_coef: 0.001
 
 trainer:
+  save_only: False
   reward_type: default
   total_epochs: 30
   total_training_steps: null

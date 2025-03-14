@@ -557,7 +557,17 @@ class ActorRolloutRefWorker(Worker):
                                                 hdfs_path=hdfs_path,
                                                 global_step=global_step,
                                                 remove_previous_ckpt=remove_previous_ckpt)
-
+        import torch.distributed
+        from torch.distributed.fsdp import FullyShardedDataParallel as FSDP, StateDictType, FullStateDictConfig
+        cfg = FullStateDictConfig(offload_to_cpu=True, rank0_only=True)
+        with FSDP.state_dict_type(self.actor.actor_module, StateDictType.FULL_STATE_DICT, cfg):
+            state_dict = self.actor.actor_module.state_dict()
+        hfpath=os.path.join(local_path, 'model')
+        if self.rank == 0:
+            print(f'Saving actor checkpoint to {hfpath}')
+            os.makedirs(hfpath, exist_ok=True)
+            self.actor_module.save_pretrained(hfpath, state_dict=state_dict)
+            self.tokenizer.save_pretrained(hfpath)
         torch.distributed.barrier()
         if self._is_offload_param:
             offload_fsdp_model_to_cpu(self.actor_module_fsdp)
