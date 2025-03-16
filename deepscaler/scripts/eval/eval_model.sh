@@ -20,7 +20,7 @@ echo "Output Directory: ${OUTPUT_DIR}"
 for DATA_TYPE in "${DATATYPES[@]}"; do
     python3 -m verl.trainer.main_generation \
         trainer.nnodes=1 \
-        trainer.n_gpus_per_node=4 \
+        trainer.n_gpus_per_node=8 \
         data.path=$DataPath/${DATA_TYPE}.parquet \
         data.output_path=${OUTPUT_DIR}/${DATA_TYPE}.parquet \
         data.n_samples=16 \
