@@ -8,7 +8,7 @@ MODEL_PATH="Qwen/Qwen2.5-Math-7B"
 DATATYPES=("aime" "amc" "math" "minerva" "olympiad_bench")
 
 OUTPUT_DIR=/mnt/danlongyuan/ShortR1/deepscaler/scripts/eval/out/normal  # Add default output directory
-BasePath=/mnt/danlongyuan/ShortR1/deepscaler
+DataPath=/mnt/danlongyuan/ShortR1/deepscaler/deepscaler/data/orzmath
 
 
 # Echo the values for verification
@@ -21,7 +21,7 @@ for DATA_TYPE in "${DATATYPES[@]}"; do
     python3 -m verl.trainer.main_generation \
         trainer.nnodes=1 \
         trainer.n_gpus_per_node=4 \
-        data.path=$BasePath/deepscaler/hdfs_data/${DATA_TYPE}.parquet \
+        data.path=$DataPath/${DATA_TYPE}.parquet \
         data.output_path=${OUTPUT_DIR}/${DATA_TYPE}.parquet \
         data.n_samples=16 \
         data.batch_size=512 \
