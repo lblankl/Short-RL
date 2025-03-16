@@ -3,7 +3,7 @@ set -x
 # export VLLM_ATTENTION_BACKEND=XFORMERS
 
 # Default values
-MODEL_PATH=/mnt/danlongyuan/ShortR1/records/out/SimpleRLMath_QwenMath_7bep2/global_step_104/actor/huggingface
+MODEL_PATH="Qwen/Qwen2.5-Math-7B"
 # Possible values: aime, amc, math, minerva, olympiad_bench
 DATATYPES=("aime" "amc" "math" "minerva" "olympiad_bench")
 
@@ -27,9 +27,11 @@ for DATA_TYPE in "${DATATYPES[@]}"; do
         data.batch_size=512 \
         model.path=${MODEL_PATH} \
         rollout.temperature=0.6 \
-        rollout.response_length=32768 \
+        rollout.prompt_length=1024 \
+        rollout.response_length=3000 \
         rollout.top_k=-1 \
         rollout.top_p=0.95 \
         rollout.gpu_memory_utilization=0.9 \
-        rollout.tensor_model_parallel_size=1
+        rollout.tensor_model_parallel_size=1 \
+        rollout.validate_roll_out_max_length=4096
 done
