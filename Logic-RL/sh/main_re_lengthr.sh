@@ -2,6 +2,7 @@ set -x
 MODEL_PATH=Qwen/Qwen2.5-7B
 export VLLM_ATTENTION_BACKEND=XFORMERS
 export WANDB_API_KEY=
+SavePath=
 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=reinforce_plus_plus \
     data.train_files=[./data/kk/base/3ppl/train.parquet,./data/kk/base/4ppl/train.parquet,./data/kk/base/5ppl/train.parquet,./data/kk/base/6ppl/train.parquet,./data/kk/base/7ppl/train.parquet] \
@@ -33,12 +34,12 @@ python3 -m verl.trainer.main_ppo \
     trainer.critic_warmup=0 \
     trainer.logger=['wandb'] \
     trainer.project_name='Re++_logic_KK' \
-    trainer.experiment_name='Qwen2.5-7BlengthrGEp2' \
-    trainer.n_gpus_per_node=4 \
+    trainer.experiment_name='Qwen2.5-7B-short' \
+    trainer.n_gpus_per_node=8 \
     trainer.nnodes=1 \
-    trainer.default_local_dir=/mnt/danlongyuan/ShortR1/records/out/logicQwen2.5-7BlengthrG-ep2 \
+    trainer.default_local_dir=$SavePath \
     trainer.default_hdfs_dir=null \
     trainer.save_freq=120 \
     trainer.test_freq=10 \
-    trainer.total_epochs=2 \
+    trainer.total_epochs=3 \
     trainer.reward_type=kk_lengthrG

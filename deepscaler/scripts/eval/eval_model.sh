@@ -23,7 +23,7 @@ for DATA_TYPE in "${DATATYPES[@]}"; do
         trainer.n_gpus_per_node=8 \
         data.path=$DataPath/${DATA_TYPE}.parquet \
         data.output_path=${OUTPUT_DIR}/${DATA_TYPE}.parquet \
-        data.n_samples=16 \
+        data.n_samples=1 \
         data.batch_size=512 \
         model.path=${MODEL_PATH} \
         rollout.temperature=0.6 \
