@@ -10,7 +10,7 @@
 </div>
 
 <div align="center" style="line-height: 1;">
-    <a href="https://github.com/lblankl/Short-RL" style="margin: 2px;"><img alt="Code" src="https://img.shields.io/badge/Open%20Reasoner%20Zero-000000?style=for-the-badge&logo=github&logoColor=000&logoColor=white" style="display: inline-block; vertical-align: middle;"/></a>
+    <a href="https://github.com/lblankl/Short-RL" style="margin: 2px;"><img alt="Code" src="https://img.shields.io/badge/Short%20RL-0000?style=for-the-badge&logo=github&logoColor=000&logoColor=white" style="display: inline-block; vertical-align: middle;"/></a>
   
 
   <a href="https://www.notion.so/Short-RL-Controlling-Reasoning-Model-Training-Length-Dynamics-with-better-performance-1b298c6782a281059383edd683ab16c0" target="_blank">
@@ -24,11 +24,11 @@
 
 </div>
 
-![](figure/kk-compare.png)
+![](figure/kk-length.png)
 
 *Figure 1 | The averaged response length curves of Qwen2.5-7B trained on Logic-RL dataset. The red curve represent our Short-RL and the blue curve represent normal RL training method.*
 
-![](figure/eval-compare.png)
+![](figure/kk-eval.png)
 *Figure 2 | The accuracy curves of Qwen2.5-7B on the 5ppl test dataset of Logic-RL. The red curve represent our Short-RL and the blue curve represent normal RL training method.*
 
 ## Overview
