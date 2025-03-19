@@ -56,27 +56,17 @@ To begin working with **Short-RL** for the ORZMath dataset, just run:
 
 ```bash
 cd deepscaler
-pip install -e ./verl
-pip install -e .
-pip install pynvml==12.0.0
-pip install vllm --upgrade
-export VLLM_USE_V1=1
+bash setup.sh
 ```
 #### Start Logic-RL Training
 
 We directly use the data from logic-RL at Logic-RL/data/kk/instruct
 
-Train Normal-RL
-
-```bash
-cd Logic-RL
-bash sh/Normal-RL.sh
-```
 Train Short-RL
 
 ```bash
 cd Logic-RL
-bash sh/Short-RL.sh
+bash sh/Short-RL.sh # Normal-RL.sh for baseline comparision
 ```
 
 Evaluate
@@ -97,24 +87,15 @@ Then run
 bash ./scripts/data/data.sh
 ```
 
-Train Normal-RL
-
-```bash
-cd deepscaler
-bash ray_node_setup.sh
-bash scripts/train/Normal-RL.sh
-```
-
 Train Short-RL
 ```bash
 cd deepscaler
-bash ray_node_setup.sh
-bash scripts/train/Short-RL.sh
+bash scripts/train/Short-RL.sh # Normal-RL.sh for baseline comparision
 ```
 
 Evaluation
 
-The evaluation has been done during training.
+The evaluation curves can be seen in wandb during training.
 
 Or if you want to evaluate it after training. You can run:
 
