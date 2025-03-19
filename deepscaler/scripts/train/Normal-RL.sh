@@ -6,6 +6,7 @@ export WANDB_API_KEY=
 export HF_TOKEN=
 SavePath=
 basepath="./deepscaler/data/orzmath"
+reward_type=default
 # Train over a single node, 8 A100-80GB GPUs.
 
 python3 -m verl.trainer.main_ppo \
@@ -50,6 +51,7 @@ python3 -m verl.trainer.main_ppo \
     trainer.test_freq=10 \
     trainer.default_hdfs_dir=null \
     trainer.total_epochs=1 "${@:1}" \
+    trainer.reward_type=$reward_type \
     actor_rollout_ref.rollout.enforce_eager=False \
     actor_rollout_ref.rollout.free_cache_engine=False \
     trainer.default_local_dir=$SavePath \

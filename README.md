@@ -23,7 +23,9 @@
 <br>
 
 </div>
+
 ![](figure/kk-compare.png)
+
 *Figure 1 | The averaged response length curves of Qwen2.5-7B trained on Logic-RL dataset. The red curve represent our Short-RL and the blue curve represent normal RL training method.*
 
 ![](figure/eval-compare.png)
@@ -120,6 +122,13 @@ Or if you want to evaluate it after training. You can run:
 ```bash
 bash ./scripts/eval/eval_model.sh
 ```
+
+## Acknowledgements
+
+Our training framework is built on [Logic-RL](https://github.com/Unakar/Logic-RL), [deepscaler](https://github.com/agentica-project/deepscaler), [verl](https://github.com/volcengine/verl) and [ray](https://github.com/ray-project/ray).
+- Our model is based on [Qwen2.5-7B](https://huggingface.co/Qwen/Qwen2.5-7B)
+- Our math data is from [Open-Reasoner-Zero](https://github.com/Open-Reasoner-Zero/Open-Reasoner-Zero)
+
 
 ## Citation
 

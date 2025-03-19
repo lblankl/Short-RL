@@ -6,6 +6,9 @@ export WANDB_API_KEY=
 export HF_TOKEN=
 SavePath=
 basepath="./deepscaler/data/orzmath"
+length_tolerance=100
+acc_tolerance=0.05
+reward_type=ShortRL
 # Train over a single node, 8 A100-80GB GPUs.
 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
@@ -52,7 +55,7 @@ python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.rollout.enforce_eager=False \
     actor_rollout_ref.rollout.free_cache_engine=False \
     trainer.default_local_dir=$SavePath \
-    trainer.reward_type=LengthrGThink \
-    algorithm.acc_tolerance=0.05 \
-    algorithm.length_tolerance=100 \
+    trainer.reward_type=$reward_type \
+    algorithm.acc_tolerance=$acc_tolerance \
+    algorithm.length_tolerance=$length_tolerance \
     algorithm.adv_estimator=grpo

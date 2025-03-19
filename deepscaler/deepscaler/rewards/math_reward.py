@@ -4,9 +4,11 @@ and assigns rewards based on their correctness. It utilizes a language model to
 validate answers when necessary.
 """
 from typing import List, Union
-
+import re
+from typing import Dict, Tuple, Optional
 from deepscaler.globals import THOUGHT_DELIMITER_START, THOUGHT_DELIMITER_END, OAI_RM_MODEL
 from deepscaler.rewards import RewardConfig, RewardFn, RewardInput, RewardOutput, RewardType
+
 from deepscaler.rewards.math_utils.utils import extract_answer, grade_answer_sympy, grade_answer_mathd
 from deepscaler.system_prompts import ORM_PROMPT
 from deepscaler.utils import call_gemini_llm, call_oai_rm_llm
@@ -16,6 +18,76 @@ Problem: {problem}
 Answer 1: {answer_1}
 Answer 2: {answer_2}
 """
+def validate_response_structure(processed_str: str) -> bool:
+    """Performs comprehensive validation of response structure.
+    
+    Args:
+        processed_str: Processed response string from the model
+        
+    Returns:
+        Boolean indicating whether all formatting requirements are met
+    """
+    print("\n[Structure Validation]")
+    validation_passed = True
+    
+    # Check required tags
+    tags = {
+        'think_start': ('<think>', 1),
+        'think_end': ('</think>', 1),
+        'answer_start': ('<answer>', 1),
+        'answer_end': ('</answer>', 1)
+    }
+
+    positions = {}
+    for tag_name, (tag_str, expected_count) in tags.items():
+        count = processed_str.count(tag_str)
+        positions[tag_name] = pos = processed_str.find(tag_str)
+        
+        print(f"  {tag_str}: count={count}, position={pos}")
+        
+        if count != expected_count:
+            print(f"  [Error] {tag_str} appears {count} times (expected {expected_count})")
+            validation_passed = False
+
+    # Verify tag order
+    if (positions['think_start'] > positions['think_end'] or
+        positions['think_end'] > positions['answer_start'] or
+        positions['answer_start'] > positions['answer_end']):
+        print("  [Error] Incorrect tag order: Expected <think>...</think><answer>...</answer>")
+        validation_passed = False
+    else:
+        print("  Tag sequence validation passed")
+
+    return validation_passed
+
+def extract_solution(solution_str: str) -> Tuple[Optional[str], str]:
+    """Extracts the final answer from the model's response string.
+    
+    Args:
+        solution_str: Raw response string from the language model
+        
+    Returns:
+        Tuple containing (extracted_answer, processed_string)
+    """
+    # Split response to isolate assistant output
+    if "Assistant:" in solution_str:
+        processed_str = solution_str.split("Assistant:", 1)[1]
+    elif "<|im_start|>assistant" in solution_str:
+        processed_str = solution_str.split("<|im_start|>assistant", 1)[1]
+    else:
+        print("[Error] Failed to locate model response header")
+        return None, solution_str
+
+    # Extract final answer using XML-style tags
+    answer_pattern = r'<answer>(.*?)</answer>'
+    matches = list(re.finditer(answer_pattern, processed_str, re.DOTALL))
+    
+    if not matches:
+        print("[Error] No valid answer tags found")
+        return None, processed_str
+        
+    final_answer = matches[-1].group(1).strip()
+    return final_answer, processed_str
 
 class RewardMathFn(RewardFn):
     """
@@ -31,28 +103,29 @@ class RewardMathFn(RewardFn):
         
         problem = input.problem
         model_response = input.model_response
-        # print("model_response: ", model_response)
-        # Extract solution.
-        # if THOUGHT_DELIMITER_START in model_response and THOUGHT_DELIMITER_END in model_response:
-        #     model_solution = model_response.split(THOUGHT_DELIMITER_END)[1]
-        # else:
-        #     return RewardOutput(reward=self.config.format_error_reward, is_correct=False)
+        
+        print(f"Model Response: {model_response}")
+        
+        
+        
         model_solution = model_response
-        model_answer = extract_answer(model_solution)
-        # print("model_answer: ", model_answer)
+        model_answer,processed_str = extract_solution(model_solution)
+        format_correct = validate_response_structure(processed_str)
+        if not format_correct:
+            return -2, -1
+        
         if model_answer is None:
-            return RewardOutput(reward=self.config.format_error_reward, is_correct=False)
+            return -2,-1
 
         # Process the ground truth(s)
         ground_truths = input.ground_truth.get("answer", None)
-        # print("ground_truths: ", ground_truths)
-        if ground_truths is None:
-            return RewardOutput(reward=self.config.unk_error_reward, is_correct=False)
+        
         
         # Convert single answer to list for uniform processing
         if isinstance(ground_truths, (str, float, int)):
             ground_truths = [ground_truths]
-            
+        if ground_truths is None:
+            return -2,-1
         # Process each ground truth
         processed_ground_truths = []
         for truth in ground_truths:
@@ -64,49 +137,25 @@ class RewardMathFn(RewardFn):
             else:
                 processed_ground_truths.append(truth)
                 
-        # print("processed_ground_truths: ", processed_ground_truths)
         if not processed_ground_truths:
-            return RewardOutput(reward=self.config.unk_error_reward, is_correct=False)
+            return -2,-1
 
         # Check against all possible correct answers
         for ground_truth in processed_ground_truths:
             is_correct = grade_answer_mathd(model_answer, ground_truth) or grade_answer_sympy(model_answer, ground_truth)
             if is_correct:
-                return RewardOutput(reward=self.config.correct_reward, is_correct=True)
+                return 2, 1
 
-        # If latex heuristics fail and ORM is enabled, use LLM as ORM to evaluate correctness
-        if self.config.use_math_orm:
-            for ground_truth in processed_ground_truths:
-                try:
-                    orm_response = call_gemini_llm(
-                        system_prompt=ORM_PROMPT,
-                        prompt=ORM_USER_TEMPLATE.format(problem=problem, answer_1=model_answer, answer_2=ground_truth),
-                        temperature=0.0,
-                    )
-
-                    if "[[YES]]" in orm_response:
-                        return RewardOutput(reward=self.config.correct_reward, is_correct=True)
-                except Exception as e:
-                    print ("Error calling Gemini ORM, trying OAI RM")
-                    orm_response = call_oai_rm_llm(
-                        system_prompt=ORM_PROMPT,
-                        prompt=ORM_USER_TEMPLATE.format(problem=problem, answer_1=model_answer, answer_2=ground_truth),
-                        temperature=0.0,
-                        model_id=OAI_RM_MODEL,
-                    )
-                    
-                    if "[[YES]]" in orm_response:
-                        return RewardOutput(reward=self.config.correct_reward, is_correct=True)
-                    continue
+        
                 
-        return RewardOutput(reward=self.config.incorrect_reward, is_correct=False)
+        return -1.5 , 1
 
 def deepscaler_reward_fn(solution_str: str, ground_truth: Union[str, List[str]], enable_llm = False):
     reward_config = RewardConfig()
     reward_config.use_math_orm = enable_llm
     reward_fn = RewardMathFn(reward_config)
-    reward_response = reward_fn(RewardInput(problem=solution_str, problem_type=RewardType.MATH, model_response=solution_str, ground_truth={"answer": ground_truth}))
-    return reward_response.is_correct
+    answer_score,format_score = reward_fn(RewardInput(problem=solution_str, problem_type=RewardType.MATH, model_response=solution_str, ground_truth={"answer": ground_truth}))
+    return answer_score+format_score
 
 if __name__ == "__main__":
     reward = RewardMathFn(RewardConfig)
