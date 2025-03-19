@@ -31,7 +31,9 @@
 *Figure 2 | The accuracy curves of Qwen2.5-7B on the 5ppl test dataset of Logic-RL. The red curve represent our Short-RL and the blue curve represent normal RL training method.*
 
 ## Overview
-We intorduce **Short-RL**, a simple yet effective technique to reduce response length during the RL training process of R1-like models, while maintaining stable performance.
+We introduce **Short-RL**, a simple yet effective technique to control response length during the RL training process of R1-like models, while maintaining stable performance. 
+
+After Short-RL, the model response becomes more token efficient, achieving a better trade-off between exploration and exploitation.
 
 ## Getting Started 🚀
 
