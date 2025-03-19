@@ -1,0 +1,1 @@
+bash sh/task_eval.sh 'qwen-ds-distill' /mnt/msranlp/xun/reasoning/DeepScaleR/results/deepscaler_reproduce/8k/actor/global_step_20 /mnt/msranlp/xun/reasoning/DeepScaleR/results/deepscaler_reproduce/8k/actor/global_step_20 'gsm8k'
