@@ -2,7 +2,7 @@
 
 # Short RL
 
-**Short RL**: Controlling Reasoning Model Training Length Dynamics with better performance.
+**Short RL**: Controlling the Dynamics of Reasoning Model Training Length with better performance.
 
 <div>
 
