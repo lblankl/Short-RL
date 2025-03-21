@@ -12,7 +12,7 @@
 <div align="center" style="line-height: 1;">
     <a href="https://github.com/lblankl/Short-RL" style="margin: 2px;"><img alt="Code" src="https://img.shields.io/badge/Short%20RL-000000?style=for-the-badge&logo=github&logoColor=000&logoColor=white" style="display: inline-block; vertical-align: middle;"/></a>
   
-  <a href="[[https://www.notion.so/Short-RL-Controlling-Reasoning-Model-Training-Length-Dynamics-with-better-performance-1b298c6782a281059383edd683ab16c0](https://rustic-somersault-180.notion.site/Short-RL-Controlling-the-Dynamics-of-Training-Length-with-better-performance-1b298c6782a281059383edd683ab16c0)](https://www.notion.so/Short-RL-Controlling-the-Dynamics-of-Training-Length-with-better-performance-1b298c6782a281059383edd683ab16c0)" target="_blank">
+  <a href="https://www.notion.so/Short-RL-Controlling-the-Dynamics-of-Training-Length-with-better-performance-1b298c6782a281059383edd683ab16c0" target="_blank">
   <img alt="Notion Page"
     src="https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white"/></a>
 
