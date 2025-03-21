@@ -116,7 +116,7 @@ Our training framework is built on [Logic-RL](https://github.com/Unakar/Logic-RL
 
 ```bibtex
 @misc{Short-RL,
-  title={Short RL : Controlling Reasoning Model Training Length Dynamics with better performance},
+  title={Short RL : Controlling the Dynamics of Training Length with better performance},
   author={Danlong Yuan, Tian Xie, Shaohan Huang, Chong Luo, Furu Wei},
   year={2025},
   howpublished={\url{https://github.com/lblankl/Short-RL}},
