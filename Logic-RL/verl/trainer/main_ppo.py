@@ -107,7 +107,7 @@ class RewardManager():
             
 
 
-            if self.config.trainer.reward_type == 'kk_kimi' or 'kk_lengthr' in self.config.trainer.reward_type:
+            if self.config.trainer.reward_type=="ShortRL" or self.config.trainer.reward_type=="kk_kimi":
                 score = compute_score_fn(index=i, solution_str=sequences_str, ground_truth=ground_truth)
             else:
                 score = compute_score_fn(solution_str=sequences_str, ground_truth=ground_truth)

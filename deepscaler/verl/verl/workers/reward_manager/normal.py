@@ -87,7 +87,7 @@ class RewardManager:
             ground_truth = data_item.non_tensor_batch['reward_model']['ground_truth']
 
             data_source = data_item.non_tensor_batch['data_source']
-            if 'kimi' in self.config.trainer.reward_type or 'Lengthr' in self.config.trainer.reward_type:
+            if self.config.trainer.reward_type=="ShortRL" or self.config.trainer.reward_type=="kk_kimi":
                 score = compute_score_fn(index=i, solution_str=sequences_str, ground_truth=ground_truth)
             else:
                 score = compute_score_fn(solution_str=sequences_str, ground_truth=ground_truth)
