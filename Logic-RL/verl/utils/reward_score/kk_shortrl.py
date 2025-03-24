@@ -303,7 +303,7 @@ class LengthRScorer:
             current_len = valid_response_length
             max_len = self.id2maxlen[self.index[index]]
             min_len = self.id2minlen[self.index[index]]
-            if current_len > min_len+self.config.algorithm.len_tolerance:
+            if current_len > min_len+self.config.algorithm.length_tolerance:
                 # length penalty same to kimi 1.5
                 length_penalty = 0.5 - (current_len - min_len) / (max_len - min_len+1e-5)
             else:
