@@ -658,7 +658,11 @@ class RayPPOTrainer(object):
                             batch = batch.union(reward_tensor)
 
                         # we combine with rule-based rm
-                        reward_tensor = self.reward_fn(batch)
+                        if self.config.trainer.reward_type=="ShortRL":
+                            reward_tensor, valid_len_control_rate = self.reward_fn(batch)
+                            metrics['response_length/valid_len_control_rate'] = valid_len_control_rate
+                        else:
+                            reward_tensor = self.reward_fn(batch)
                         batch.batch['token_level_scores'] = reward_tensor
 
                         # compute rewards. apply_kl_penalty if available

@@ -212,10 +212,16 @@ class LengthRScorer:
 
             self.id2len[self.index[i]].append(valid_response_length)
         global MaxACC
+        self.right_num=acc
         acc=acc/bsz
         self.acc=acc
         if acc>MaxACC:
             MaxACC=acc
+            
+        if self.acc >= MaxACC-self.config.algorithm.acc_tolerance:
+            self.apply_length_reward = True
+        else:
+            self.apply_length_reward = False
         print(f"LengthRScorer acc:{acc},MaxACC:{MaxACC}")
         
     def __call__(self, 
@@ -247,7 +253,7 @@ class LengthRScorer:
         
         answer_score, format_score = compute_score(solution_str, ground_truth)
         
-        
+        valid_len_control=False
         
         if answer_score > 0:
             
@@ -273,13 +279,15 @@ class LengthRScorer:
         if self.acc >= MaxACC-self.config.algorithm.acc_tolerance:
             print("Apply length reward: ", len_reward)
             total_score = format_score + answer_score + len_reward
+            if len_reward < 0.5 and answer_score > 0:
+                valid_len_control = True
 
         else:
             total_score = format_score + answer_score
         
         
 
-        return total_score
+        return total_score, valid_len_control
 
 
 if __name__ == "__main__":

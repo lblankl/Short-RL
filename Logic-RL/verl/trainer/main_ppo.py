@@ -81,7 +81,7 @@ class RewardManager():
         already_print_data_sources = {}
         data_source = data[0].non_tensor_batch['data_source']
         compute_score_fn = _select_rm_score_fn(data_source,self.config,data,tokenizer=self.tokenizer)
-
+        valid_len_control_sum=0
         for i in range(len(data)):
             data_item = data[i]  # DataProtoItem
 
@@ -107,7 +107,10 @@ class RewardManager():
             
 
 
-            if self.config.trainer.reward_type=="ShortRL"  or self.config.trainer.reward_type=="kk_kimi":
+            if self.config.trainer.reward_type=="ShortRL":
+                score,valid_len_control = compute_score_fn(index=i, solution_str=sequences_str, ground_truth=ground_truth)
+                valid_len_control_sum+= int(valid_len_control)
+            elif self.config.trainer.reward_type=="kk_kimi":
                 score = compute_score_fn(index=i, solution_str=sequences_str, ground_truth=ground_truth)
             else:
                 score = compute_score_fn(solution_str=sequences_str, ground_truth=ground_truth)
@@ -119,8 +122,17 @@ class RewardManager():
             if already_print_data_sources[data_source] < self.num_examine:
                 already_print_data_sources[data_source] += 1
                 print(sequences_str)
+        if self.config.trainer.reward_type=="ShortRL":
+            if compute_score_fn.right_num==0:
+                valid_len_control_rate=0
+            elif not compute_score_fn.apply_length_reward:
+                valid_len_control_rate=-1
+            else:
+                valid_len_control_rate=valid_len_control_sum/compute_score_fn.right_num
 
-        return reward_tensor
+            return reward_tensor,valid_len_control_rate
+        else:
+            return reward_tensor
 
 class ValRewardManager():
     """The reward manager.
