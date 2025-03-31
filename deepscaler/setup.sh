@@ -10,7 +10,7 @@ pip install pynvml==12.0.0
 # cd tools/vllm-0.7.3
 # VLLM_USE_PRECOMPILED=1 pip install --editable .
 # cd ..
-pip3 install vllm==0.7.3
+pip3 install vllm==0.7.32
 # cd tools/vllm-0.7.3
 # pip install -e .
 # VLLM_USE_PRECOMPILED=1 pip install --editable .

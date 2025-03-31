@@ -207,7 +207,10 @@ class KimiScorer:
         max_len = self.id2maxlen[self.index[index]]
         min_len = self.id2minlen[self.index[index]]
         # length penalty same to kimi 1.5
-        length_penalty = 0.5 - (current_len - min_len) / (max_len - min_len+1e-5)
+        if max_len == min_len:
+            length_penalty = 0
+        else:
+            length_penalty = 0.5 - (current_len - min_len) / (max_len - min_len+1e-5)
 
         
 
