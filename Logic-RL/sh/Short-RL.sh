@@ -15,7 +15,7 @@ python3 -m verl.trainer.main_ppo \
     data.max_prompt_length=512 \
     data.max_response_length=4096 \
     actor_rollout_ref.model.path=$MODEL_PATH\
-    actor_rollout_ref.actor.optim.lr=4e-7 \
+    actor_rollout_ref.actor.optim.lr=1e-6 \
     actor_rollout_ref.model.use_remove_padding=True \
     actor_rollout_ref.actor.ppo_mini_batch_size=32 \
     actor_rollout_ref.actor.ppo_micro_batch_size=8 \
