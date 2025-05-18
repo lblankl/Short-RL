@@ -1,0 +1,5 @@
+Error parsing override '/volume/ailab4sci/txie/ydl/Short-RL/Logic-RL/sh/out/ShortRL-logic-200-0.05'
+extraneous input '/' expecting {EQUAL, '~', '+', '@', KEY_SPECIAL, DOT_PATH, ID}
+See https://hydra.cc/docs/1.2/advanced/override_grammar/basic for details
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

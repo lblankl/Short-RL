@@ -1,0 +1,1 @@
+docker run --privileged --net=host --ipc=host --gpus=all --runtime=nvidia -v /home/shaohanh/xun/DeppScaleR/v0.2.0-debug/deepscaler:/home/shaohanh/xun/DeppScaleR/v0.2.0-debug/deepscaler -w /tmp -it buaahsh/nvcr:24.07-py3-scalerl-0211
