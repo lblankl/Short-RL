@@ -127,16 +127,11 @@ bash ./scripts/eval/eval_model.sh
 
 Our training framework is built on [Logic-RL](https://github.com/Unakar/Logic-RL), [deepscaler](https://github.com/agentica-project/deepscaler), [verl](https://github.com/volcengine/verl) and [ray](https://github.com/ray-project/ray).
 
-- Our model is based on [Qwen2.5-7B](https://huggingface.co/Qwen/Qwen2.5-7B)
+- Our model is based on [Qwen2.5-7B](https://huggingface.co/Qwen/Qwen2.5-7B),[DeepSeek Distill Qwen1.5B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B)
 - Our math data is from [Open-Reasoner-Zero](https://github.com/Open-Reasoner-Zero/Open-Reasoner-Zero), [deepscaler](https://github.com/agentica-project/deepscaler),  [simpleRL-reason](https://github.com/hkust-nlp/simpleRL-reason)
 
 ## Citation
 
 ```bibtex
-@misc{Short-RL,
-  title={Short RL : Controlling the Dynamics of Training Length with better performance},
-  author={Danlong Yuan, Tian Xie, Shaohan Huang, Chong Luo, Furu Wei},
-  year={2025},
-  howpublished={\url{https://github.com/lblankl/Short-RL}},
-}
+
 ```
