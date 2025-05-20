@@ -15,7 +15,7 @@ Length-Aware Optimization
 <div align="center" style="line-height: 1;">
     <a href="https://github.com/lblankl/Short-RL" style="margin: 2px;"><img alt="Code" src="https://img.shields.io/badge/Short%20RL-000000?style=for-the-badge&logo=github&logoColor=000&logoColor=white" style="display: inline-block; vertical-align: middle;"/></a>
 
-<a href="https://arxiv.org/abs/submit/6449940" target="_blank">
+<a href="https://arxiv.org/abs/2505.12284" target="_blank">
   <img alt="Arxiv"
     src="https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white"/></a>
 
@@ -133,5 +133,13 @@ Our training framework is built on [Logic-RL](https://github.com/Unakar/Logic-RL
 ## Citation
 
 ```bibtex
-
+@misc{yuan2025efficientrltrainingreasoning,
+      title={Efficient RL Training for Reasoning Models via Length-Aware Optimization}, 
+      author={Danlong Yuan and Tian Xie and Shaohan Huang and Zhuocheng Gong and Huishuai Zhang and Chong Luo and Furu Wei and Dongyan Zhao},
+      year={2025},
+      eprint={2505.12284},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2505.12284}, 
+}
 ```
