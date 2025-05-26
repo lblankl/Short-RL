@@ -5,6 +5,7 @@
 **Short RL**: Efficient RL Training for Reasoning Models via
 Length-Aware Optimization
 
+
 <div>
 
 </div>
@@ -25,6 +26,11 @@ Length-Aware Optimization
 <br>
 
 </div>
+
+## News
+[2025/05/23] We our paper.
+
+[2025/03/19] We release our github project
 
 ## Overview
 
