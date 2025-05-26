@@ -29,9 +29,9 @@ Length-Aware Optimization
 
 ## News
 [2025/05/23] We release our paper [Efficient RL Training for Reasoning Models via
-Length-Aware Optimization](https://arxiv.org/abs/2505.12284)
+Length-Aware Optimization](https://arxiv.org/abs/2505.12284) and update the main branch
 
-[2025/03/19] We release our github project
+[2025/03/19] We release our github project (branch old)
 
 ## Overview
 
