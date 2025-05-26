@@ -36,7 +36,7 @@ Length-Aware Optimization](https://arxiv.org/abs/2505.12284) and update the main
 ## Overview
 
 
-Code of paper "Efficient RL Training for Reasoning Models via Length-Aware Optimization
+Code of paper "Efficient RL Training for Reasoning Models via Length-Aware Optimization"
 
 We introduce **Short-RL**, a simple yet effective technique to control response length during the RL training process of R1-like models, while maintaining stable performance.
 
