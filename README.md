@@ -28,7 +28,8 @@ Length-Aware Optimization
 </div>
 
 ## News
-[2025/05/23] We our paper.
+[2025/05/23] We release our paper [Efficient RL Training for Reasoning Models via
+Length-Aware Optimization](https://arxiv.org/abs/2505.12284)
 
 [2025/03/19] We release our github project
 
