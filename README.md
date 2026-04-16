@@ -2,7 +2,7 @@
 
 # Short RL
 
-**Short RL**: Efficient RL Training for Reasoning Models via
+**Short RL**: Shorten After Youre Right: Lazy Length Penalties for Reasoning RL
 Length-Aware Optimization
 
 
